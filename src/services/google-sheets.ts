@@ -3,13 +3,17 @@ const SCRIPT_URL = process.env.NEXT_PUBLIC_SCRIPT_URL;
 
 interface SheetData {
   success: boolean;
-  data?: any;
+  data?: unknown;
   error?: string;
 }
 
 class GoogleSheetsService {
-  async fetchData(sheetName: string): Promise<any> {
+  async fetchData(sheetName: string): Promise<unknown> {
     try {
+      if (!SCRIPT_URL) {
+        throw new Error('SCRIPT_URL is not configured');
+      }
+      
       const response = await fetch(
         `${SCRIPT_URL}?sheet=${encodeURIComponent(sheetName)}&action=read`
       );
@@ -31,8 +35,12 @@ class GoogleSheetsService {
     }
   }
   
-  async createRecord(sheetName: string, recordData: any): Promise<SheetData> {
+  async createRecord(sheetName: string, recordData: Record<string, unknown>): Promise<SheetData> {
     try {
+      if (!SCRIPT_URL) {
+        throw new Error('SCRIPT_URL is not configured');
+      }
+      
       const response = await fetch(SCRIPT_URL, {
         method: 'POST',
         headers: {
@@ -58,8 +66,12 @@ class GoogleSheetsService {
     }
   }
   
-  async updateRecord(sheetName: string, recordData: any): Promise<SheetData> {
+  async updateRecord(sheetName: string, recordData: Record<string, unknown>): Promise<SheetData> {
     try {
+      if (!SCRIPT_URL) {
+        throw new Error('SCRIPT_URL is not configured');
+      }
+      
       const response = await fetch(SCRIPT_URL, {
         method: 'POST',
         headers: {
@@ -87,6 +99,10 @@ class GoogleSheetsService {
   
   async deleteRecord(sheetName: string, recordId: string | number): Promise<SheetData> {
     try {
+      if (!SCRIPT_URL) {
+        throw new Error('SCRIPT_URL is not configured');
+      }
+      
       const response = await fetch(SCRIPT_URL, {
         method: 'POST',
         headers: {

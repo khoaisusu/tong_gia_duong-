@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import { googleSheetsService } from '@/services/google-sheets';
 
 export default function TestPage() {
-  const [data, setData] = useState(null);
+  const [data, setData] = useState<unknown>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   
